@@ -1,11 +1,11 @@
 ---
-title: LeetCode-Go 题解
+title: LeetCode 题解
 description: 订阅源「leetcode-go」的镜像（MIT）
 tags: [订阅源, leetcode-go]
 updated: 2026-10-10
 ---
 
-# LeetCode-Go 题解
+# LeetCode 题解
 
 本目录内容来自订阅源 **leetcode-go**，按 **MIT** 许可分发，版权归原作者所有。
 

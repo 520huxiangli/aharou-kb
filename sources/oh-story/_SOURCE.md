@@ -1,11 +1,11 @@
 ---
-title: oh-story 网文写作手册
+title: 网文写作手册
 description: 订阅源「oh-story」的镜像（MIT）
 tags: [订阅源, oh-story]
 updated: 2026-10-10
 ---
 
-# oh-story 网文写作手册
+# 网文写作手册
 
 本目录内容来自订阅源 **oh-story**，按 **MIT** 许可分发，版权归原作者所有。
 

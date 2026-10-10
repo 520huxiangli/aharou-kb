@@ -48,6 +48,9 @@ def sync_repo(source_id, spec, out_root, force):
     repo = spec["repo"]
     branch = spec.get("branch") or "main"
     sub_path = (spec.get("path") or "").strip("/")
+    # 排除的目录名（按段匹配，任意层级都算）：微软那几个教学仓带了上百种语言的
+    # translations/，不排除会把仓库撑到几十万文件。
+    excludes = {e.strip("/") for e in (spec.get("exclude") or []) if e.strip("/")}
     target = os.path.join(out_root, source_id)
 
     with tempfile.TemporaryDirectory(prefix="kbsrc-") as tmp:
@@ -56,6 +59,10 @@ def sync_repo(source_id, spec, out_root, force):
         if host == "github.com" and GIT_PROXY:
             url = GIT_PROXY + url
         result = run(["git", "clone", "--depth", "1", "--branch", branch, url, clone])
+        if result.returncode != 0:
+            # 清单里的分支名写错时，退一步拉默认分支，不让一个笔误废掉整个源。
+            shutil.rmtree(clone, ignore_errors=True)
+            result = run(["git", "clone", "--depth", "1", url, clone])
         if result.returncode != 0:
             return False, "clone 失败: %s" % (result.stderr or "").strip()[:200], 0
 
@@ -80,7 +87,7 @@ def sync_repo(source_id, spec, out_root, force):
 
         copied = 0
         for root, dirs, files in os.walk(src_root):
-            dirs[:] = [d for d in dirs if d not in (".git", "node_modules")]
+            dirs[:] = [d for d in dirs if d not in (".git", "node_modules") and d not in excludes]
             for name in files:
                 if not name.lower().endswith(".md"):
                     continue
