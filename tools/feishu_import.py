@@ -58,8 +58,9 @@ def load_credentials(args):
 
 
 class Feishu:
-    def __init__(self, app_id, app_secret):
-        self.token = self._token(app_id, app_secret)
+    def __init__(self, app_id=None, app_secret=None, user_token=None):
+        # user_token：以用户本人身份调用（能看到你自己可见的知识库，包括个人库）
+        self.token = user_token or self._token(app_id, app_secret)
 
     def _token(self, app_id, app_secret):
         body = json.dumps({"app_id": app_id, "app_secret": app_secret}).encode()
@@ -90,10 +91,15 @@ class Feishu:
                         path, payload.get("code"), payload.get("msg")))
                 return payload.get("data") or {}
             except urllib.error.HTTPError as exc:
+                body = ""
+                try:
+                    body = exc.read().decode("utf-8", "replace")[:500]
+                except Exception:
+                    pass
                 if exc.code in (429, 500, 502, 503) and attempt < 2:
                     time.sleep(2 * (attempt + 1))
                     continue
-                raise
+                raise RuntimeError("HTTP %s %s -> %s" % (exc.code, path, body or "(空响应体)"))
         raise RuntimeError("重试耗尽: " + path)
 
     def spaces(self):
@@ -157,10 +163,19 @@ def main():
     parser.add_argument("--space", default="", help="知识空间名字或 space_id；留空导出全部")
     parser.add_argument("--env-file", default="", help="环境文件（每行 KEY=VALUE）")
     parser.add_argument("--list", action="store_true", help="只列出可见的知识空间")
+    parser.add_argument("--user-token-file", default="",
+                        help="feishu_auth.py 存下的 user_access_token JSON；给了就以你的身份调接口")
     args = parser.parse_args()
 
-    app_id, app_secret = load_credentials(args)
-    api = Feishu(app_id, app_secret)
+    if args.user_token_file:
+        with open(args.user_token_file, encoding="utf-8") as fh:
+            token = json.load(fh).get("access_token")
+        if not token:
+            sys.exit("user token 文件里没有 access_token")
+        api = Feishu(user_token=token)
+    else:
+        app_id, app_secret = load_credentials(args)
+        api = Feishu(app_id, app_secret)
 
     spaces = api.spaces()
     if args.list:
