@@ -12,6 +12,26 @@
       "path": "skills",
       "license": "MIT",
       "homepage": "https://github.com/zenstory-ai/oh-story-claudecode"
+    },
+    "prompt-engineering": {
+      "name": { "zh": "提示工程指南", "en": "Prompt Engineering Guide" },
+      "kind": "repo",
+      "host": "github",
+      "repo": "dair-ai/Prompt-Engineering-Guide",
+      "branch": "main",
+      "path": "",
+      "license": "MIT",
+      "homepage": "https://github.com/dair-ai/Prompt-Engineering-Guide"
+    },
+    "anthropic-cookbook": {
+      "name": { "zh": "Anthropic 实战手册", "en": "Anthropic Cookbook" },
+      "kind": "repo",
+      "host": "github",
+      "repo": "anthropics/anthropic-cookbook",
+      "branch": "main",
+      "path": "",
+      "license": "MIT",
+      "homepage": "https://github.com/anthropics/anthropic-cookbook"
     }
   }
 }
