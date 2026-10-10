@@ -23,6 +23,10 @@ import tempfile
 
 CLONE_URL = "https://{host}/{repo}.git"
 
+# 国内直连 github.com 经常卡死（DNS 污染），默认走 gh-proxy 镜像克隆；
+# 不需要时设 KB_GIT_PROXY="" 关掉。
+GIT_PROXY = os.environ.get("KB_GIT_PROXY", "https://gh-proxy.com/")
+
 
 def load_sources(path_or_url):
     if path_or_url.startswith(("http://", "https://")):
@@ -48,8 +52,10 @@ def sync_repo(source_id, spec, out_root, force):
 
     with tempfile.TemporaryDirectory(prefix="kbsrc-") as tmp:
         clone = os.path.join(tmp, "repo")
-        result = run(["git", "clone", "--depth", "1", "--branch", branch,
-                      CLONE_URL.format(host=host, repo=repo), clone])
+        url = CLONE_URL.format(host=host, repo=repo)
+        if host == "github.com" and GIT_PROXY:
+            url = GIT_PROXY + url
+        result = run(["git", "clone", "--depth", "1", "--branch", branch, url, clone])
         if result.returncode != 0:
             return False, "clone 失败: %s" % (result.stderr or "").strip()[:200], 0
 

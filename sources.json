@@ -1,7 +1,7 @@
 {
   "version": 1,
   "updated": "2026-10-10",
-  "note": "知识库订阅源清单。加一个源 = 加一条；消费端（机器人 / App）按这里的 repo + path 自己去源站拉 Markdown。只收有明确开放许可的来源。",
+  "note": "知识库订阅源清单。加一个源 = 加一条。内容由 tools/kb_sources.py 镜像进本仓库的 sources/<id>/，消费端只从本仓库拉，不去上游。只收有明确开放许可的来源。",
   "sources": {
     "oh-story": {
       "name": { "zh": "oh-story 网文写作手册", "en": "oh-story Writing Handbook" },
@@ -32,6 +32,36 @@
       "path": "",
       "license": "MIT",
       "homepage": "https://github.com/anthropics/anthropic-cookbook"
+    },
+    "openai-cookbook": {
+      "name": { "zh": "OpenAI 实战手册", "en": "OpenAI Cookbook" },
+      "kind": "repo",
+      "host": "github",
+      "repo": "openai/openai-cookbook",
+      "branch": "main",
+      "path": "",
+      "license": "MIT",
+      "homepage": "https://github.com/openai/openai-cookbook"
+    },
+    "java-guide": {
+      "name": { "zh": "JavaGuide 后端知识体系", "en": "JavaGuide" },
+      "kind": "repo",
+      "host": "github",
+      "repo": "Snailclimb/JavaGuide",
+      "branch": "main",
+      "path": "docs",
+      "license": "Apache-2.0",
+      "homepage": "https://github.com/Snailclimb/JavaGuide"
+    },
+    "leetcode-go": {
+      "name": { "zh": "LeetCode-Go 题解", "en": "LeetCode-Go" },
+      "kind": "repo",
+      "host": "github",
+      "repo": "halfrost/LeetCode-Go",
+      "branch": "master",
+      "path": "",
+      "license": "MIT",
+      "homepage": "https://github.com/halfrost/LeetCode-Go"
     }
   }
 }
