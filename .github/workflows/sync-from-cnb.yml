@@ -1,0 +1,41 @@
+name: Sync from CNB
+
+# 主仓在 cnb.cool/huxiangli/aharou-kb，本仓是给 Aharou App 与公开站读取的镜像。
+# 本 workflow 定时把主仓内容拉过来覆盖（.github 自身除外，见 rsync 的 --exclude）。
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-from-cnb
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 拉取主仓
+        run: git clone --depth 1 https://cnb.cool/huxiangli/aharou-kb.git /tmp/kb
+
+      - name: 覆盖到本仓
+        run: rsync -a --delete --exclude=.git --exclude=.github /tmp/kb/ ./
+
+      - name: 提交并推送
+        run: |
+          git config user.name "aharou-kb-mirror"
+          git config user.email "kb@aharou.local"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "无变化"
+            exit 0
+          fi
+          git commit -m "mirror: 同步自 cnb $(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M')"
+          git push

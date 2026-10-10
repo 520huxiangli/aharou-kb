@@ -1,0 +1,11 @@
+{
+  "name": { "zh": "Aharou 共享知识库", "en": "Aharou Knowledge Base" },
+  "description": { "zh": "一个 Markdown 仓库，三端共读", "en": "One markdown repo, three readers" },
+  "updated": "2026-10-10",
+  "categories": [
+    { "id": "ima", "name": { "zh": "ima 知识库", "en": "ima KB" }, "path": "ima" },
+    { "id": "aharou", "name": { "zh": "Aharou 文档", "en": "Aharou Docs" }, "path": "aharou" },
+    { "id": "freekill", "name": { "zh": "新月杀", "en": "FreeKill" }, "path": "freekill" },
+    { "id": "fox", "name": { "zh": "狐狸服", "en": "Fox Server" }, "path": "fox" }
+  ]
+}
