@@ -48,14 +48,6 @@
         "en": "Writing"
       },
       "path": "writing"
-    },
-    {
-      "id": "feishu",
-      "name": {
-        "zh": "飞书知识库",
-        "en": "Feishu Wiki"
-      },
-      "path": "feishu"
     }
   ]
 }
