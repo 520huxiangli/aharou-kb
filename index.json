@@ -6,6 +6,7 @@
     { "id": "ima", "name": { "zh": "ima 知识库", "en": "ima KB" }, "path": "ima" },
     { "id": "aharou", "name": { "zh": "Aharou 文档", "en": "Aharou Docs" }, "path": "aharou" },
     { "id": "freekill", "name": { "zh": "新月杀", "en": "FreeKill" }, "path": "freekill" },
-    { "id": "fox", "name": { "zh": "狐狸服", "en": "Fox Server" }, "path": "fox" }
+    { "id": "fox", "name": { "zh": "狐狸服", "en": "Fox Server" }, "path": "fox" },
+    { "id": "writing", "name": { "zh": "写作方法", "en": "Writing" }, "path": "writing" }
   ]
 }
